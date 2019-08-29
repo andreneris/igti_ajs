@@ -1,11 +1,13 @@
 import React from 'react';
 import {Form, Col, Row, Button, Card} from 'react-bootstrap'
+import axios from 'axios';
 
 // export default props =>(
 export default class Contato extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      id:'',
       name: '',
       email: '',
       submit: ''
@@ -16,7 +18,14 @@ export default class Contato extends React.Component {
   }
 
   handleSubmit(event){
-    console.log(this.state);
+    const data = {email: this.state.email, name: this.state.name}
+      axios.post(`http://localhost:5001/contacts`,data, { 'headers': { 'Authorization': 'teste',
+    }  })
+      .then(res => {
+        const id = res.data.id;
+        this.setState({ id });
+      })
+
     event.preventDefault();
   }
 
@@ -69,7 +78,9 @@ export default class Contato extends React.Component {
           </Col>
         </Form.Group>
       </Form>
+      <h3>{this.state.id}</h3>
               </Col>
+
           </Card.Body>
       </Card>
       
